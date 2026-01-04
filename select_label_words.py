@@ -50,7 +50,7 @@ class ArgumentManager:
         self.parser.add_argument("--prompt", type=str, default=DEFAULT_PROMPT,
                                  help="prompt which sends to gpt model to extend label words")
         self.parser.add_argument("--template_path", type=str,
-                                 default="./templates/parsinlu-food-sentiment/templates.txt",
+                                 default="./templates/parsinlufood/templates.txt",
                                  help="a path to template file. must defined in a way that KPT defined")
         self.parser.add_argument("--template_id", type=int, default=0,
                                  help="line number for selected template")
