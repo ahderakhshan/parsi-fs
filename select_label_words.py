@@ -63,6 +63,7 @@ class ArgumentManager:
                                  help="path to label words file after final refinements")
         self.parser.add_argument("--max_token_split", type=int, default=-1,
                                  help="from kpt argumans")
+        self.parser.add_argument("--plm_eval_mode", action="store_true")
 
 
     def parse(self):
