@@ -19,7 +19,7 @@ class ParsiNLUFoodSentimentProcessor(DataProcessor):
         dataset = pd.read_csv(path, header=None)
         for index, row in dataset.iterrows():
             label, sentence = row[0], row[1]
-            example = InputExample(guid=str(index), text_a=sentence, label=self.label_column_to_ids[row["label"]])
+            example = InputExample(guid=str(index), text_a=sentence, label=self.label_column_to_ids[row[0]])
             examples.append(example)
         return examples
 
