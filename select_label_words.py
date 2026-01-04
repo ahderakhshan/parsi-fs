@@ -126,6 +126,7 @@ if __name__ == '__main__':
     final_file = open(args.final_label_word_path, "w")
     for word_per_label in myverbalizer.label_words:
         final_file.write(",".join(word_per_label))
+        final_file.write("\n")
 
     logger.info(f"label words written in the file: {args.final_label_word_path}")
 
