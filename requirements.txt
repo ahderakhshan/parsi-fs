@@ -1,2 +1,5 @@
 openai
 openprompt
+torch
+scikit-learn
+transformers==4.20.0
