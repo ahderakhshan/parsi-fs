@@ -61,6 +61,8 @@ class ArgumentManager:
                                  help="label words find with gpt are stored in this file")
         self.parser.add_argument("--final_label_word_path", type=str, default="./label_words/parsinlufoodsentiemnt/refinements.txt",
                                  help="path to label words file after final refinements")
+        self.parser.add_argument("--max_token_split", type=int, default=-1,
+                                 help="from kpt argumans")
 
 
     def parse(self):
