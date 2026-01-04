@@ -124,7 +124,8 @@ if __name__ == '__main__':
         logger.info(f"label words after relevance refinements are: {myverbalizer.label_words}")
 
     final_file = open(args.final_label_word_path, "w")
-    final_file.write("-".join(myverbalizer.label_words))
+    for word in myverbalizer.label_words:
+        final_file.write(word + "\n")
 
     logger.info(f"label words written in the file: {args.final_label_word_path}")
 
