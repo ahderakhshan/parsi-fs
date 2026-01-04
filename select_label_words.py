@@ -1,6 +1,7 @@
 import argparse
 import logging
 import json
+import os
 
 from LabelWordExtension.label_word_extension import LabelWordExtension
 from LabelWordExtension.data_processors import ParsiNLUFoodSentimentProcessor
@@ -79,6 +80,11 @@ if __name__ == '__main__':
         class_labels = ParsiNLUFoodSentimentProcessor().get_labels()
         max_seq_l = 256
         batch_s = 30
+
+    dir_name = os.path.dirname(args.final_label_word_path)
+    os.makedirs(dir_name, exist_ok=True)
+    dir_name = os.path.dirname(args.gpt_label_word_path)
+    os.makedirs(dir_name, exist_ok=True)
 
     label_word_extension = LabelWordExtension(initial_label_words=args.initial_label_words, prompt=args.prompt,
                                               model=args.gpt_type, api_key=args.gpt_api_key,
