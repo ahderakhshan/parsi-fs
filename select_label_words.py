@@ -81,7 +81,7 @@ if __name__ == '__main__':
         dataset['test'] = ParsiNLUFoodSentimentProcessor().get_test_examples("./data/parsinlufood/")
         class_labels = ParsiNLUFoodSentimentProcessor().get_labels()
         max_seq_l = 256
-        batch_s = 30
+        batch_s = 8
 
     if "GPT_EXTEND" in args.level:
         dir_name = os.path.dirname(args.final_label_word_path)
