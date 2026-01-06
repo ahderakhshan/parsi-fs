@@ -84,8 +84,6 @@ if __name__ == '__main__':
         batch_s = 2
 
     if "GPT_EXTEND" in args.level:
-        dir_name = os.path.dirname(args.final_label_word_path)
-        os.makedirs(dir_name, exist_ok=True)
         dir_name = os.path.dirname(args.initial_label_word_path)
         os.makedirs(dir_name, exist_ok=True)
 
@@ -97,6 +95,8 @@ if __name__ == '__main__':
         logger.info(f"Extended label words find with GPT model are: {extended_label_words}")
 
     if "FILTER" in args.level:
+        dir_name = os.path.dirname(args.final_label_word_path)
+        os.makedirs(dir_name, exist_ok=True)
         plm, tokenizer, model_config, WrapperClass = load_plm(args.model_type, args.model_name_or_path)
         mytemplate = ManualTemplate(tokenizer=tokenizer).from_file(args.template_path, choice=args.template_id)
         myverbalizer = KnowledgeableVerbalizer(tokenizer, classes=class_labels, candidate_frac=args.cutoff,
