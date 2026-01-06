@@ -73,7 +73,6 @@ class ArgumentManager:
 if __name__ == '__main__':
     arg_manager = ArgumentManager()
     args = arg_manager.parse()
-    plm, tokenizer, model_config, WrapperClass = load_plm(args.model_type, args.model_name_or_path)
 
     dataset = {}
     task = args.task
@@ -97,11 +96,13 @@ if __name__ == '__main__':
         extended_label_words = label_word_extension.extend_label_words()
         logger.info(f"Extended label words find with GPT model are: {extended_label_words}")
 
-    mytemplate = ManualTemplate(tokenizer=tokenizer).from_file(args.template_path, choice=args.template_id)
-    myverbalizer = KnowledgeableVerbalizer(tokenizer, classes=class_labels, candidate_frac=args.cutoff,
-                                           max_token_split=args.max_token_split).from_file(args.initial_label_word_path)
-
     if "FILTER" in args.level:
+        plm, tokenizer, model_config, WrapperClass = load_plm(args.model_type, args.model_name_or_path)
+        mytemplate = ManualTemplate(tokenizer=tokenizer).from_file(args.template_path, choice=args.template_id)
+        myverbalizer = KnowledgeableVerbalizer(tokenizer, classes=class_labels, candidate_frac=args.cutoff,
+                                               max_token_split=args.max_token_split).from_file(
+            args.initial_label_word_path)
+
         support_dataset = dataset['test']
         for example in support_dataset:
             example.label = -1
