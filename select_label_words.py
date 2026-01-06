@@ -102,6 +102,7 @@ if __name__ == '__main__':
         myverbalizer = KnowledgeableVerbalizer(tokenizer, classes=class_labels, candidate_frac=args.cutoff,
                                                max_token_split=args.max_token_split).from_file(
             args.initial_label_word_path)
+        logger.info(f"initial number of label words per classes {[len(i) for i in myverbalizer.label_words]}")
 
         support_dataset = dataset['test']
         for example in support_dataset:
@@ -121,11 +122,13 @@ if __name__ == '__main__':
         cc_logits = calibrate(prompt_model, support_dataloader)
         if "FR" in args.filters:
             myverbalizer.register_calibrate_logits(cc_logits.mean(dim=0))
+            logger.info(f"after FR number of label words per classes {[len(i) for i in myverbalizer.label_words]}")
             for i in range(len(myverbalizer.label_words)):
                 logger.info(f"After Frequency refinement label words for {list(args.initial_label_words.values())[i]} are"
                             f" {myverbalizer.label_words[i]}")
         if "RR" in args.filters:
             record = tfidf_filter(myverbalizer, cc_logits, class_labels)
+            logger.info(f"after RR number of label words per classes {[len(i) for i in myverbalizer.label_words]}")
             for i in range(len(myverbalizer.label_words)):
                 logger.info(f"After Relevance refinement label words for {list(args.initial_label_words.values())[i]} are"
                             f" {myverbalizer.label_words[i]}")
