@@ -121,12 +121,12 @@ if __name__ == '__main__':
         cc_logits = calibrate(prompt_model, support_dataloader)
         if "FR" in args.filters:
             myverbalizer.register_calibrate_logits(cc_logits.mean(dim=0))
-            for i in range(myverbalizer.label_words):
+            for i in range(len(myverbalizer.label_words)):
                 logger.info(f"After Frequency refinement label words for {args.initial_label_words.values()[i]} are"
                             f" {myverbalizer.label_words[i]}")
         if "RR" in args.filters:
             record = tfidf_filter(myverbalizer, cc_logits, class_labels)
-            for i in range(myverbalizer.label_words):
+            for i in range(len(myverbalizer.label_words)):
                 logger.info(f"After Relevance refinement label words for {args.initial_label_words.values()[i]} are"
                             f" {myverbalizer.label_words[i]}")
 
