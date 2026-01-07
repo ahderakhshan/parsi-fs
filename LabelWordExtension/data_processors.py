@@ -45,7 +45,7 @@ class ParsiNLUNLI(DataProcessor):
             label, sentence_a, sentence_b = row[2], row[0], row[1]
             if replace_a_char and (sentence_a[-1] in self.punctuations):
                 sentence_a = sentence_a[0:-1]
-                sentence_a += replace_b_char
+                sentence_a += replace_a_char
             elif replace_a_char:
                 sentence_a += replace_a_char
 
