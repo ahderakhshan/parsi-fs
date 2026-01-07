@@ -89,9 +89,15 @@ if __name__ == '__main__':
     dataset = {}
     task = args.task
     if task == "parsinlu-food-sentiment":
-        dataset['train'] = ParsiNLUFoodSentimentProcessor().get_train_examples("./data/parsinlufood/")
-        dataset['test'] = ParsiNLUFoodSentimentProcessor().get_test_examples("./data/parsinlufood/")
-        class_labels = ParsiNLUFoodSentimentProcessor().get_labels()
+        dataset['train'] = ParsiNLUSentimentProcessor().get_train_examples("./data/parsinlufood/")
+        dataset['test'] = ParsiNLUSentimentProcessor().get_test_examples("./data/parsinlufood/")
+        class_labels = ParsiNLUSentimentProcessor().get_labels()
+        max_seq_l = 256
+        batch_s = 2
+    elif task == "parsinlu-movie-review":
+        dataset['train'] = ParsiNLUSentimentProcessor().get_train_examples("./data/parsinlumovie/")
+        dataset['test'] = ParsiNLUSentimentProcessor().get_test_examples("./data/parsinlumovie/")
+        class_labels = ParsiNLUSentimentProcessor().get_labels()
         max_seq_l = 256
         batch_s = 2
 
