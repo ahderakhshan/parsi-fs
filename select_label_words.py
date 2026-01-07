@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 import argparse
 import logging
 import json
 import os
+import  sys
 
 from LabelWordExtension.label_word_extension import LabelWordExtension
 from LabelWordExtension.data_processors import ParsiNLUFoodSentimentProcessor
@@ -20,8 +22,18 @@ _MODEL_CLASSES['xlmroberta'] = ModelClass(**{
     'wrapper': MLMTokenizerWrapper,
 })
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.INFO)
+
+formatter = logging.Formatter(
+    '%(asctime)s - %(levelname)s - %(message)s'
+)
+handler.setFormatter(formatter)
+
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.handlers.clear()
+logger.addHandler(handler)
 
 DEFAULT_PROMPT = """برای استفاده از روش prompt based fine tunning یک مدل زبانی نیاز داریم که برای هر کلاس تعدادی کلمه برچسب داشته باشیم.
 در ادامه نام تعدادی کلاس نمایش داده شده است. به ازای هر کدام از این کلاس ها حداکثر 30 کلمه مرتبط تولید کن. قالب خروجی باید به شکل زیر باشد. و هیچ توضیح اضافه ای قابل قبول نیست.
@@ -133,7 +145,7 @@ if __name__ == '__main__':
                 logger.info(f"After Relevance refinement label words for {list(args.initial_label_words.values())[i]} are"
                             f" {myverbalizer.label_words[i]}")
 
-        final_file = open(args.final_label_word_path, "w")
+        final_file = open(args.final_label_word_path, "w", encoding="utf-8-sig")
         for word_per_label in myverbalizer.label_words:
             final_file.write(",".join(word_per_label))
             final_file.write("\n")
