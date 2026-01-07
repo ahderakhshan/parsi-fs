@@ -6,7 +6,7 @@ import os
 import  sys
 
 from LabelWordExtension.label_word_extension import LabelWordExtension
-from LabelWordExtension.data_processors import ParsiNLUFoodSentimentProcessor
+from LabelWordExtension.data_processors import ParsiNLUSentimentProcessor
 from openprompt.plms import load_plm
 from openprompt.prompts import ManualTemplate, KnowledgeableVerbalizer
 from openprompt import PromptDataLoader, PromptForClassification

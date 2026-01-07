@@ -7,7 +7,7 @@ import pandas as pd
 from openprompt.data_utils.utils import InputExample
 
 
-class ParsiNLUFoodSentimentProcessor(DataProcessor):
+class ParsiNLUSentimentProcessor(DataProcessor):
     def __init__(self):
         super().__init__()
         self.labels = ["خوب", "بد", "متوسط"]
@@ -22,5 +22,6 @@ class ParsiNLUFoodSentimentProcessor(DataProcessor):
             example = InputExample(guid=str(index), text_a=sentence, label=self.label_column_to_ids[row[0]])
             examples.append(example)
         return examples
+
 
 

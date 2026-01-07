@@ -27,7 +27,7 @@ class LabelWordExtension:
         return result
 
     def write_label_words(self, new_label_words):
-        output_file = open(self.output_path, "w")
+        output_file = open(self.output_path, "w", encoding="utf-8-sig")
         file_content = ""
         for key, value in new_label_words.items():
             file_content += ",".join(value)
