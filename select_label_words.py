@@ -6,7 +6,8 @@ import os
 import  sys
 
 from LabelWordExtension.label_word_extension import LabelWordExtension
-from LabelWordExtension.data_processors import ParsiNLUSentimentProcessor, ParsiNLUNLI
+from LabelWordExtension.data_processors import ParsiNLUSentimentProcessor, ParsiNLUNLI,\
+    DigikalaTextClassificationProcessor
 from openprompt.plms import load_plm
 from openprompt.prompts import ManualTemplate, KnowledgeableVerbalizer
 from openprompt import PromptDataLoader, PromptForClassification
@@ -111,6 +112,14 @@ if __name__ == '__main__':
         dataset["test"] = ParsiNLUNLI().get_test_examples("./data/parsinlu-nli/",  replace_a_char=args.replace_a_char,
                                                             replace_b_char=args.replace_b_char)
         class_labels = ParsiNLUSentimentProcessor().get_labels()
+        max_seq_l = 512
+        batch_s = 2
+    elif task == "digikala-text-classification":
+        dataset["train"] = DigikalaTextClassificationProcessor().get_train_examples("./data/digikala-text-classification/",
+                                                                                  replace_a_char=args.replace_a_char)
+        dataset["test"] = DigikalaTextClassificationProcessor().get_test_examples("./data/digikala-text-classification/",
+                                                                                replace_a_char=args.replace_a_char)
+        class_labels = DigikalaTextClassificationProcessor().get_labels()
         max_seq_l = 512
         batch_s = 2
 

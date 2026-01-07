@@ -61,4 +61,32 @@ class ParsiNLUNLI(DataProcessor):
         return examples
 
 
+class DigikalaTextClassificationProcessor(DataProcessor):
+    def __init__(self):
+        super().__init__()
+        self.labels = ["فناوری", "بازی","سینما", "سلامتی","ادبیات", "خرید", "عمومی"]
+        self.label_column_to_ids = {"علم و تکنولوژی": 0, "بازی ویدیویی": 1, "هنر و سینما": 2, "سلامت و زیبایی": 3,
+                                    "کتاب و ادبیات":4, "راهنمای خرید": 5, "عمومی": 6}
+        self.punctuations = ["،","؛",":","؟","!",".","—","-","%"]
 
+    def get_train_examples(self, data_dir, replace_a_char=False, replace_b_char=False) -> InputExample:
+        return self.get_examples(data_dir, "train", replace_a_char, replace_b_char)
+
+    def get_test_examples(self, data_dir, replace_a_char=False, replace_b_char=False) -> InputExample:
+        return self.get_examples(data_dir, "test", replace_a_char, replace_b_char)
+
+    def get_examples(self, data_dir, split, replace_a_char=False, replace_b_char=False):
+        path = os.path.join(data_dir, "{}.csv".format(split))
+        examples = []
+        dataset = pd.read_csv(path, header=None)
+        for index, row in dataset.iterrows():
+            label, sentence_a = row[1], row[0]
+            if replace_a_char and (sentence_a[-1] in self.punctuations):
+                sentence_a = sentence_a[0:-1]
+                sentence_a += replace_a_char
+            elif replace_a_char:
+                sentence_a += replace_a_char
+
+            example = InputExample(guid=str(index), text_a=sentence_a, label=self.label_column_to_ids[label])
+            examples.append(example)
+        return examples
