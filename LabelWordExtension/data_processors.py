@@ -44,13 +44,13 @@ class ParsiNLUNLI(DataProcessor):
         for index, row in dataset.iterrows():
             label, sentence_a, sentence_b = row[2], row[0], row[1]
             if replace_a_char and (sentence_a[-1] in self.punctuations):
-                sentence_a[-1] = sentence_a[0:-1]
+                sentence_a = sentence_a[0:-1]
                 sentence_a += replace_b_char
             else:
                 sentence_a += replace_a_char
 
             if replace_b_char and (sentence_b[-1] in self.punctuations):
-                sentence_b[-1] = sentence_b[0:-1]
+                sentence_b = sentence_b[0:-1]
                 sentence_b += replace_b_char
             else:
                 sentence_b += replace_b_char
