@@ -6,7 +6,7 @@ import os
 import  sys
 
 from LabelWordExtension.label_word_extension import LabelWordExtension
-from LabelWordExtension.data_processors import ParsiNLUSentimentProcessor
+from LabelWordExtension.data_processors import ParsiNLUSentimentProcessor, ParsiNLUNLI
 from openprompt.plms import load_plm
 from openprompt.prompts import ManualTemplate, KnowledgeableVerbalizer
 from openprompt import PromptDataLoader, PromptForClassification
@@ -77,6 +77,9 @@ class ArgumentManager:
                                  help="from kpt argumans")
         self.parser.add_argument("--plm_eval_mode", action="store_true")
         self.parser.add_argument("--level", type=str, nargs="+", default=["GPT_EXTEND", "FILTER"])
+        self.parser.add_argument("--replace_a_char", type=str,
+                                 help="when we want to remove last charachter of sentence a and replace it with our")
+        self.parser.add_argument("--replace_b_char", type=str, help="like replace_a_char but for sentence b")
 
     def parse(self):
         return self.parser.parse_args()
@@ -86,6 +89,8 @@ if __name__ == '__main__':
     arg_manager = ArgumentManager()
     args = arg_manager.parse()
 
+    args.replace_a_char = False if not args.replace_a_char else args.replace_a_char
+    args.replace_b_char = False if not args.replace_b_char else args.replace_b_char
     dataset = {}
     task = args.task
     if task == "parsinlu-food-sentiment":
@@ -99,6 +104,14 @@ if __name__ == '__main__':
         dataset['test'] = ParsiNLUSentimentProcessor().get_test_examples("./data/parsinlumovie/")
         class_labels = ParsiNLUSentimentProcessor().get_labels()
         max_seq_l = 256
+        batch_s = 2
+    elif task == "parsinlu-nli":
+        dataset["train"] = ParsiNLUNLI().get_train_examples("./data/parsinlu-nli/", replace_a_char=args.replace_a_char,
+                                                            replace_b_char=args.replace_b_char)
+        dataset["test"] = ParsiNLUNLI().get_test_examples("./data/parsinlu-nli/",  replace_a_char=args.replace_a_char,
+                                                            replace_b_char=args.replace_b_char)
+        class_labels = ParsiNLUSentimentProcessor().get_labels()
+        max_seq_l = 512
         batch_s = 2
 
     if "GPT_EXTEND" in args.level:
