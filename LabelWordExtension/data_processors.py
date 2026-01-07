@@ -46,13 +46,13 @@ class ParsiNLUNLI(DataProcessor):
             if replace_a_char and (sentence_a[-1] in self.punctuations):
                 sentence_a = sentence_a[0:-1]
                 sentence_a += replace_b_char
-            else:
+            elif replace_a_char:
                 sentence_a += replace_a_char
 
             if replace_b_char and (sentence_b[-1] in self.punctuations):
                 sentence_b = sentence_b[0:-1]
                 sentence_b += replace_b_char
-            else:
+            elif replace_b_char:
                 sentence_b += replace_b_char
 
             example = InputExample(guid=str(index), text_a=sentence_a, text_b=sentence_b,
